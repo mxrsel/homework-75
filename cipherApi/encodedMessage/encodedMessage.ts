@@ -1,13 +1,18 @@
 import express from "express";
+import {vigenereCipher} from "../Vigenere/Vigenere";
+import {Message} from "../types";
 
 export const encodedMessageRouter = express.Router();
 
-encodedMessageRouter.get("/", (req: express.Request, res: express.Response) => {
+encodedMessageRouter.post("/encode", (req, res) => {
+   try {
+      const message: Message = { message: req.body.message };
+      const password = 'password';
 
-})
+      const encodedMessage = vigenereCipher(message.message, password, true);
 
-encodedMessageRouter.get("/:encodedMessage", (req, res) => {
-
-})
-
-encodedMessageRouter.post("/", (req, res) => {})
+      res.json({ encodedMessage });
+   } catch (e) {
+      console.error(e);
+   }
+});
